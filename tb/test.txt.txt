@@ -1,0 +1,45 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+// Company: 
+// Engineer: 
+// 
+// Create Date: 10/30/2025 12:34:45 AM
+// Design Name: 
+// Module Name: test_pipe
+// Project Name: 
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module test_pipe;
+
+  parameter N = 10;
+  reg          clk;
+  reg [N-1:0]  a, b, c, d;
+  wire [N-1:0] f;
+
+  pipe_v dut (.clk(clk), .a(a), .b(b), .c(c), .d(d), .f(f));
+
+  initial begin 
+    clk = 0;
+    forever #7 clk = ~clk;
+  end
+
+  initial begin 
+    #5 a = 10; b = 12; c = 13; d = 2;
+    #20 a = 12; b = 23; c = 2; d = 34;
+    #20 a = 45; b = 4; c = 34; d = 3;
+    #20 a = 3; b = 3; c = 4; d = 5;
+  end
+
+  initial begin
+    $dumpfile("pipe1.vcd");
+    $dumpvars(0, test_pipe);
+    $monitor("Time = %0t | a = %d | b = %d | c = %d | d = %d | f = %d", $time, a, b, c, d, f);
+    #300 $finish;
+  end
+
+endmodule
+

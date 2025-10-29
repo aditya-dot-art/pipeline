@@ -1,0 +1,39 @@
+`timescale 1ns / 1ps
+//////////////////////////////////////////////////////////////////////////////////
+ 
+// Create Date: 10/30/2025 12:16:01 AM
+// Design Name: 
+// Module Name: pipe_v
+// Project Name: pipeline concept
+ 
+// Revision 0.01 - File Created
+// Additional Comments:
+// 
+//////////////////////////////////////////////////////////////////////////////////
+
+
+module pipe_v#(parameter N = 10)(
+  input [N-1:0]      a, b, c, d,
+  input              clk,
+  output [N-1:0]     f 
+    );
+    
+    reg [N-1:0]  l12_x1, l12_x2, l12_d, l21_x3, l21_d, l23_f;
+    
+    assign f = l23_f;
+    
+    always @(posedge clk) begin 
+        l12_x1 <= a + b; 
+          l12_x2 <= c - d;
+        l12_d <= d; 
+     end
+     
+     always @(posedge clk) begin
+        l21_x3 <= l12_x1 + l12_x2;
+        l21_d <= l12_d;
+     end
+     
+     always @(posedge clk) begin 
+         l23_f <= l21_x3 * l21_d;
+     end
+endmodule
